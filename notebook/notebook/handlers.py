@@ -29,7 +29,7 @@ def get_custom_frontend_exporters():
 
 
 class NotebookHandler(IPythonHandler):
-
+    
     @web.authenticated
     def get(self, path):
         """get renders the notebook template if a name is given, or 
@@ -60,6 +60,39 @@ class NotebookHandler(IPythonHandler):
             )
         )
 
+class Al_NotebookHandler(IPythonHandler):
+
+    @web.authenticated
+    def get(self, path):
+        """get renders the notebook template if a name is given, or 
+        redirects to the '/files/' handler if the name is not given."""
+        self.log.warning("new notebook here")
+        path = path.strip('/')
+        cm = self.contents_manager
+        
+        # will raise 404 on not found
+        try:
+            model = cm.get(path, content=False)
+        except web.HTTPError as e:
+            if e.status_code == 404 and 'files' in path.split('/'):
+                # 404, but '/files/' in URL, let FilesRedirect take care of it
+                return FilesRedirectHandler.redirect_to_files(self, path)
+            else:
+                raise
+        if model['type'] != 'notebook':
+            # not a notebook, redirect to files
+            return FilesRedirectHandler.redirect_to_files(self, path)
+        name = path.rsplit('/', 1)[-1]
+        self.write(self.render_template('al_notebook.html',
+            notebook_path=path,
+            notebook_name=name,
+            kill_kernel=False,
+            mathjax_url=self.mathjax_url,
+            mathjax_config=self.mathjax_config,
+            get_custom_frontend_exporters=get_custom_frontend_exporters
+            )
+        )
+
 
 #-----------------------------------------------------------------------------
 # URL to handler mappings
@@ -68,5 +101,6 @@ class NotebookHandler(IPythonHandler):
 
 default_handlers = [
     (r"/notebooks%s" % path_regex, NotebookHandler),
+    (r"/al_notebooks%s" % path_regex, Al_NotebookHandler),
 ]
 

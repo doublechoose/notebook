@@ -168,6 +168,7 @@ class AuthenticatedHandler(web.RequestHandler):
     def logged_in(self):
         """Is a user currently logged in?"""
         user = self.get_current_user()
+        print("[logged_in] user: "+str(user))
         return (user and not user == 'anonymous')
 
     @property

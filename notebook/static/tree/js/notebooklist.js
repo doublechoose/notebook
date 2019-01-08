@@ -842,6 +842,7 @@ define([
         if (model.type === 'file' && this._is_notebook(model))
         {
             uri_prefix = 'notebooks';
+            //yoy: add another prefix
         }
 
         item.find(".item_icon").addClass(icon).addClass('icon-fixed-width');

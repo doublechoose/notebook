@@ -506,7 +506,7 @@ class CompileJS(Command):
     def finalize_options(self):
         self.force = bool(self.force)
 
-    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
+    apps = ['alnotebook','notebook', 'tree', 'edit', 'terminal', 'auth']
     targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
     
     def sources(self, name):
