@@ -68,6 +68,6 @@ If you are interested in contributing to the project, see [`CONTRIBUTING.rst`](C
 
 I am trying to change the notebook's look,and here is my last change:
 
-![Jupyter notebook new look](docs\resources\notebook_new_look.png "Jupyter notebook new look")
+![Jupyter notebook new look](docs/resources/notebook_new_look.png "Jupyter notebook new look")
 
 just run the notebook and access it from http://localhost:8888/al_notebooks/your_notebook_name.ipynb
