@@ -108,6 +108,7 @@ define([
         this.input_prompt_number = null;
         this.celltoolbar = null;
         this.output_area = null;
+        this.output_area_a = null;
 
         this.last_msg_id = null;
         this.completer = null;
@@ -196,11 +197,22 @@ define([
         input.append(prompt_container).append(inner_cell);
 
         var output = $('<div></div>');
-        cell.append(input).append(output);
+        var output_a = $('<div></div>');
+        // 将2个输出放到一个div里，再让cell添加这个div
+        var wrap2output = $('<div></div>').addClass('wrap2output');
+        wrap2output.append(output).append(output_a);
+        cell.append(input).append(wrap2output);
         this.element = cell;
         this.output_area = new outputarea.OutputArea({
             config: this.config,
             selector: output,
+            prompt_area: true,
+            events: this.events,
+            keyboard_manager: this.keyboard_manager,
+        });
+        this.output_area_a = new outputarea.OutputArea({
+            config: this.config,
+            selector: output_a,
             prompt_area: true,
             events: this.events,
             keyboard_manager: this.keyboard_manager,
@@ -393,10 +405,11 @@ define([
                 output : function() { 
                     that.events.trigger('set_dirty.Notebook', {value: true});
                     that.output_area.handle_output.apply(that.output_area, arguments);
+                    that.output_area_a.handle_output.apply(that.output_area_a, arguments);
                 }, 
                 clear_output : function() { 
                     that.events.trigger('set_dirty.Notebook', {value: true});
-                    that.output_area.handle_clear_output.apply(that.output_area, arguments);
+                    that.output_area_a.handle_clear_output.apply(that.output_area_a, arguments);
                 }, 
             },
             input : $.proxy(this._handle_input_request, this),
@@ -437,6 +450,7 @@ define([
      */
     CodeCell.prototype._handle_input_request = function (msg) {
         this.output_area.append_raw_input(msg);
+        this.output_area_a.append_raw_input(msg);
     };
 
 
@@ -468,25 +482,32 @@ define([
 
     CodeCell.prototype.collapse_output = function () {
         this.output_area.collapse();
+        this.output_area_a.collapse();
     };
 
 
     CodeCell.prototype.expand_output = function () {
         this.output_area.expand();
         this.output_area.unscroll_area();
+        this.output_area_a.expand();
+        this.output_area_a.unscroll_area();
     };
 
     CodeCell.prototype.scroll_output = function () {
         this.output_area.expand();
         this.output_area.scroll_if_long();
+        this.output_area_a.expand();
+        this.output_area_a.scroll_if_long();
     };
 
     CodeCell.prototype.toggle_output = function () {
         this.output_area.toggle_output();
+        this.output_area_a.toggle_output();
     };
 
     CodeCell.prototype.toggle_output_scroll = function () {
         this.output_area.toggle_scroll();
+        this.output_area_a.toggle_scroll();
     };
 
 
@@ -543,6 +564,7 @@ define([
     CodeCell.prototype.clear_output = function (wait, ignore_queue) {
         this.events.trigger('clear_output.CodeCell', {cell: this});
         this.output_area.clear_output(wait, ignore_queue);
+        this.output_area_a.clear_output(wait, ignore_queue);
         this.set_input_prompt();
     };
 
@@ -562,6 +584,8 @@ define([
             this.set_input_prompt(data.execution_count);
             this.output_area.trusted = data.metadata.trusted || false;
             this.output_area.fromJSON(data.outputs, data.metadata);
+            this.output_area_a.trusted = data.metadata.trusted || false;
+            this.output_area_a.fromJSON(data.outputs, data.metadata);
         }
     };
 
