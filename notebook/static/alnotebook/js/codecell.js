@@ -18,6 +18,7 @@ define([
     'services/config',
     'alnotebook/js/cell',
     'alnotebook/js/outputarea',
+    'alnotebook/js/outputareal',
     'alnotebook/js/completer',
     'alnotebook/js/celltoolbar',
     'codemirror/lib/codemirror',
@@ -32,6 +33,7 @@ define([
     configmod,
     cell,
     outputarea,
+    outputareal,
     completer,
     celltoolbar,
     CodeMirror,
@@ -210,7 +212,7 @@ define([
             events: this.events,
             keyboard_manager: this.keyboard_manager,
         });
-        this.output_area_a = new outputarea.OutputArea({
+        this.output_area_a = new outputareal.OutputArea({
             config: this.config,
             selector: output_a,
             prompt_area: true,

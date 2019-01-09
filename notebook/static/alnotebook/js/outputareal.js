@@ -673,7 +673,7 @@ define([
     OutputArea.safe_outputs = {};
     OutputArea.safe_outputs[MIME_TEXT] = true;
     OutputArea.safe_outputs[MIME_LATEX] = true;
-    OutputArea.safe_outputs[MIME_PNG] = true;
+    OutputArea.safe_outputs[MIME_PNG] = false;
     OutputArea.safe_outputs[MIME_JPEG] = true;
     OutputArea.safe_outputs[MIME_GIF] = true;
 
@@ -778,13 +778,13 @@ define([
         console.log("[append_text]");
         var type = MIME_TEXT;
         var toinsert = this.create_output_subarea(md, "output_text", type);
-        // data = utils.fixOverwrittenChars(data);
-        // // escape ANSI & HTML specials in plaintext:
-        // data = utils.fixConsole(data);
-        // data = utils.autoLinkUrls(data);
-        // // The only user content injected with this HTML call is
-        // // escaped by the fixConsole() method.
-        // toinsert.append($("<pre/>").html(data));
+        data = utils.fixOverwrittenChars(data);
+        // escape ANSI & HTML specials in plaintext:
+        data = utils.fixConsole(data);
+        data = utils.autoLinkUrls(data);
+        // The only user content injected with this HTML call is
+        // escaped by the fixConsole() method.
+        toinsert.append($("<pre/>").html(data));
         element.append(toinsert);
         return toinsert;
     };
@@ -846,18 +846,21 @@ define([
     };
     
     var append_png = function (png, md, element, handle_inserted) {
+        
+        console.log("yoy append_png");
+        
         var type = MIME_PNG;
         var toinsert = this.create_output_subarea(md, "output_png", type);
-        var img = $("<img/>");
-        if (handle_inserted !== undefined) {
-            img.on('load', function(){
-                handle_inserted(img);
-            });
-        }
-        img[0].src = 'data:image/png;base64,'+ png;
-        set_width_height(img, md, type);
-        dblclick_to_reset_size(img);
-        toinsert.append(img);
+        // var img = $("<img/>");
+        // if (handle_inserted !== undefined) {
+        //     img.on('load', function(){
+        //         handle_inserted(img);
+        //     });
+        // }
+        // img[0].src = 'data:image/png;base64,'+ png;
+        // set_width_height(img, md, type);
+        // dblclick_to_reset_size(img);
+        // toinsert.append(img);
         element.append(toinsert);
         return toinsert;
     };
