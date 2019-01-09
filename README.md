@@ -3,7 +3,7 @@
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
-                
+
 
 
 The Jupyter notebook is a web-based notebook environment for interactive
@@ -63,3 +63,11 @@ If you are interested in contributing to the project, see [`CONTRIBUTING.rst`](C
 - [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)
+
+
+
+I am trying to change the notebook's look,and here is my last change:
+
+![Jupyter notebook new look](docs\resources\notebook_new_look.png "Jupyter notebook new look")
+
+just run the notebook and access it from http://localhost:8888/al_notebooks/your_notebook_name.ipynb
